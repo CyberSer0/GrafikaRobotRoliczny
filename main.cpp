@@ -682,39 +682,6 @@ void walec(double r, double h)// double x, double y, double z)
 	glEnd();
 }
 
-
-void kombajn()
-
-{
-	// ---------------------------------------------------------------------------------------------
-	// ==   kolo2(GLfloat x, GLfloat y, GLfloat z, GLfloat dlugosc, GLfloat promien)              ==
-	// ==																						  ==
-	// ==   walec2(double r, double h, float igrek, float iks, float zet)                         ==
-	// ==																					      ==
-	// ==   prostopadloscian(GLfloat x, GLfloat y, GLfloat z, GLfloat rozmiar, GLfloat wysokosc)  ==
-	// ==																					      ==
-	// ==   kolo(GLfloat x, GLfloat y, GLfloat z, GLfloat dlugosc, GLfloat promien)               ==
-	// ---------------------------------------------------------------------------------------------
-
-	prostopadloscian(0.0f, 0.0f, 10.0f, 40.0f, 30.0f); // dolny
-	prostopadloscian(0.0f, 30.0f, 0.0f, 60.0f, 30.0f); // gorny
-
-	kolo(15.0f, 2.0f, 5.0f, 10.0f, 15.0f); // przod
-	kolo(15.0f, 2.0f, 55.0f, 10.0f, 15.0f); // prodz
-
-	kolo(46.0f, 0.0f, 5.0f, 10.0f, 12.0f); // srodek
-	kolo(46.0f, 0.0f, 55.0f, 10.0f, 12.0f); // srodek
-
-	kolo(75.0f, 0.0f, 5.0f, 10.0f, 12.0f); // tyl
-	kolo(75.0f, 0.0f, 55.0f, 10.0f, 12.0f); // tyl
-
-	kolo(-13.0f, 10.0f, 0.0f, 70.0f, 13.0f); // zbierak
-
-	prostopadloscian(-15.0f, 30.0f, 15.0f, 30.0f, 25.0f); // kabina 
-
-	prostopadloscian(80.0f, 0.0f, 25.0f, 10.0f, 5.0f); // orka
-}
-
 void ramie(double r1, double r2, double h, double d)
 {
 	double PI = 3.14, alpha, x, y;

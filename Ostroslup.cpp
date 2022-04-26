@@ -25,21 +25,18 @@ Ostroslup::Ostroslup(GLfloat dlugosc, GLfloat szerokosc, GLfloat wysokosc, GLflo
 	glVertex3f(wierzcholek[0], wierzcholek[1], wierzcholek[2]);
 	glEnd();
 
-	glColor3f(kolory[0] - 0.25f, kolory[1] - 0.25f, kolory[2] + 0.25f);
 	glBegin(GL_TRIANGLES);
 	glVertex3f(spod1[0], spod1[1], spod1[2]);
 	glVertex3f(spod3[0], spod3[1], spod3[2]);
 	glVertex3f(wierzcholek[0], wierzcholek[1], wierzcholek[2]);
 	glEnd();
 
-	glColor3f(kolory[0] + 0.25f, kolory[1] -0.25f, kolory[2] - 0.25f);
 	glBegin(GL_TRIANGLES);
 	glVertex3f(spod3[0], spod3[1], spod3[2]);
 	glVertex3f(spod4[0], spod4[1], spod4[2]);
 	glVertex3f(wierzcholek[0], wierzcholek[1], wierzcholek[2]);
 	glEnd();
 
-	glColor3f(kolory[0] - 0.25f, kolory[1] -0.25f, kolory[2] - 0.25f);
 	glBegin(GL_TRIANGLES);
 	glVertex3f(spod4[0], spod4[1], spod4[2]);
 	glVertex3f(spod2[0], spod2[1], spod2[2]);

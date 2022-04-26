@@ -131,7 +131,7 @@ void calcNormal(float v[3][3], float out[3])
 // Change viewing volume and viewport.  Called when window is resized
 void ChangeSize(GLsizei w, GLsizei h)
 {
-	GLfloat nRange = 100.0f;
+	GLfloat nRange = 300.0f;
 	GLfloat fAspect;
 	// Prevent a divide by zero
 	if (h == 0)
@@ -939,8 +939,8 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, PWSTR pCmdLine, in
 		WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
 
 		// Window position and size
-		50, 50,
-		400, 400,
+		300, 100,
+		1280, 700,
 		NULL,
 		NULL,
 		hInstance,
@@ -1118,16 +1118,16 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 	case WM_KEYDOWN:
 	{
 		if (wParam == VK_UP)
-			xRot -= 5.0f;
-
-		if (wParam == VK_DOWN)
 			xRot += 5.0f;
 
+		if (wParam == VK_DOWN)
+			xRot -= 5.0f;
+
 		if (wParam == VK_LEFT)
-			yRot -= 5.0f;
+			yRot += 5.0f;
 
 		if (wParam == VK_RIGHT)
-			yRot += 5.0f;
+			yRot -= 5.0f;
 
 		xRot = (const int)xRot % 360;
 		yRot = (const int)yRot % 360;

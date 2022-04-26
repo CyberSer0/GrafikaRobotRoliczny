@@ -36,6 +36,9 @@
     <ClCompile Include="Ogrodzenie.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Ostroslup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Kombajn.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Ogrodzenie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ostroslup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -131,7 +131,7 @@ void calcNormal(float v[3][3], float out[3])
 // Change viewing volume and viewport.  Called when window is resized
 void ChangeSize(GLsizei w, GLsizei h)
 {
-	GLfloat nRange = 300.0f;
+	GLfloat nRange = 200.0f;
 	GLfloat fAspect;
 	// Prevent a divide by zero
 	if (h == 0)
@@ -150,9 +150,9 @@ void ChangeSize(GLsizei w, GLsizei h)
 
 	// Establish clipping volume (left, right, bottom, top, near, far)
 	if (w <= h)
-		glOrtho(-nRange, nRange, -nRange * h / w, nRange * h / w, -nRange, nRange);
+		glOrtho(-nRange, nRange, -nRange * h / w, nRange * h / w, -2 * nRange, 2 * nRange);
 	else
-		glOrtho(-nRange * w / h, nRange * w / h, -nRange, nRange, -nRange, nRange);
+		glOrtho(-nRange * w / h, nRange * w / h, -nRange, nRange, -2 * nRange, 2 * nRange);
 
 	// Establish perspective: 
 	/*
@@ -752,6 +752,8 @@ void ramie(double r1, double r2, double h, double d)
 	}
 	glEnd();
 }
+
+
 // Called to draw scene
 void RenderScene(void)
 {
@@ -775,10 +777,12 @@ void RenderScene(void)
 	//Spos�b na odr�nienie "przedniej" i "tylniej" �ciany wielok�ta:
 	glPolygonMode(GL_BACK, GL_LINE);
 	//walec(40, 40);
+	
 	Kombajn kombajn = Kombajn(0.75f);
 	Ziemia ziemia = Ziemia(1.f);
 	Dom dom = Dom(0.75f);
 	Ogrodzenie ogrodzenie = Ogrodzenie(0.75f);
+
 	//Uzyskanie siatki:
 	//glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 

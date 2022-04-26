@@ -155,6 +155,7 @@
     <ClCompile Include="Kombajn.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Ogrodzenie.cpp" />
+    <ClCompile Include="Ostroslup.cpp" />
     <ClCompile Include="Prostopadloscian.cpp" />
     <ClCompile Include="Walec.cpp" />
     <ClCompile Include="Ziemia.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Dom.h" />
     <ClInclude Include="Kombajn.h" />
     <ClInclude Include="Ogrodzenie.h" />
+    <ClInclude Include="Ostroslup.h" />
     <ClInclude Include="Prostopadloscian.h" />
     <ClInclude Include="Walec.h" />
     <ClInclude Include="Ziemia.h" />

@@ -5,6 +5,7 @@ Dom::Dom(GLfloat rozmiar)
 	// ---------------------------------------------------------------------------------------------
 	// ==   prostopadloscian(GLfloat dlugosc, GLfloat wysokosc, GLfloat szerokosc, GLfloat posX, GLfloat posY, GLfloat posZ)
 	// ==   Walec(GLfloat promien, GLfloat dlugosc, GLfloat posX, GLfloat posY, GLfloat posZ)
+	// Ostroslup(	GLfloat dlugosc, GLfloat szerokosc, GLfloat wysokosc, GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat kolory[3]);
 	// ---------------------------------------------------------------------------------------------
 
 	GLfloat kolorCiemnoZielony[3] = { 0.f, 0.5f, 0.f };
@@ -20,11 +21,14 @@ Dom::Dom(GLfloat rozmiar)
 	// domek
 	Prostopadloscian dom = Prostopadloscian(175.f * rozmiar, 70.f * rozmiar, 120.f * rozmiar, -300.f * rozmiar, -20.f * rozmiar, -200.f * rozmiar, kolorCzerwony);
 
+	// daszek
+	Ostroslup dach = Ostroslup(190.f *rozmiar, 150.f*rozmiar, 120.f*rozmiar, -212.f*rozmiar, 50.f*rozmiar, -140.f*rozmiar, kolorCiemnoSzary);
+
 	// dach 1
-	Prostopadloscian dach1 = Prostopadloscian(150.f * rozmiar, 30.f * rozmiar, 95.f * rozmiar, -300.f * rozmiar, 50.f * rozmiar, -200.f * rozmiar, kolorCiemnoNiebieski);
+	// Prostopadloscian dach1 = Prostopadloscian(150.f * rozmiar, 30.f * rozmiar, 95.f * rozmiar, -300.f * rozmiar, 50.f * rozmiar, -200.f * rozmiar, kolorCiemnoNiebieski);
 
 	// dach 2
-	Prostopadloscian dach2 = Prostopadloscian(125.f * rozmiar, 30.f * rozmiar, 70.f * rozmiar, -300.f * rozmiar, 80.f * rozmiar, -200.f * rozmiar, kolorJasnoNiebieski);
+	// Prostopadloscian dach2 = Prostopadloscian(125.f * rozmiar, 30.f * rozmiar, 70.f * rozmiar, -300.f * rozmiar, 80.f * rozmiar, -200.f * rozmiar, kolorJasnoNiebieski);
 }
 
 Dom::~Dom()

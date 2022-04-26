@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Dom.cpp" />
+    <ClCompile Include="Kamera.cpp" />
     <ClCompile Include="Kombajn.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Ogrodzenie.cpp" />
@@ -163,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dom.h" />
+    <ClInclude Include="Kamera.h" />
     <ClInclude Include="Kombajn.h" />
     <ClInclude Include="Ogrodzenie.h" />
     <ClInclude Include="Ostroslup.h" />

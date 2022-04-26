@@ -27,6 +27,15 @@
     <ClCompile Include="Prostopadloscian.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Ziemia.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ogrodzenie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Kombajn.h">
@@ -36,6 +45,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Prostopadloscian.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ziemia.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ogrodzenie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

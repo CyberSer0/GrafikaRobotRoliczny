@@ -32,6 +32,9 @@
 #include <math.h>				// Define for sqrt
 #include <stdio.h>
 #include "Kombajn.h"
+#include "Ziemia.h"
+#include "Dom.h"
+#include "Ogrodzenie.h"
 
 #define glRGB(x, y, z)	glColor3ub((GLubyte)x, (GLubyte)y, (GLubyte)z)
 #define BITMAP_ID 0x4D42		// identyfikator formatu BMP
@@ -773,6 +776,9 @@ void RenderScene(void)
 	glPolygonMode(GL_BACK, GL_LINE);
 	//walec(40, 40);
 	Kombajn kombajn = Kombajn(0.75f);
+	Ziemia ziemia = Ziemia(1.f);
+	Dom dom = Dom(0.75f);
+	Ogrodzenie ogrodzenie = Ogrodzenie(0.75f);
 	//Uzyskanie siatki:
 	//glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 

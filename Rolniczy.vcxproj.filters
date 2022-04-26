@@ -39,6 +39,9 @@
     <ClCompile Include="Siano.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Ostroslup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Kombajn.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Siano.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ostroslup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

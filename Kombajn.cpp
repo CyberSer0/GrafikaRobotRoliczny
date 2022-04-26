@@ -48,13 +48,15 @@ Kombajn::Kombajn(GLfloat rozmiar)
 
 	// Ko³o œrodek prawo ma³e
 	Walec koloSrodekPrawoMale = Walec(15.f * rozmiar, -10.f * rozmiar, -7.5f * rozmiar, -5.f * rozmiar, -20.f * rozmiar, kolorCiemnoCiemnoSzary);
+	Walec felgaSrodekPrawoMala = Walec(7.5f * rozmiar, -10.f * rozmiar, -7.5f * rozmiar, -5.f * rozmiar, -22.5f * rozmiar, kolorJasnoSzary);
 
 	// Ko³o ty³ lewo ma³e
 	Walec koloTylLewoMale = Walec(15.f * rozmiar, 10.f * rozmiar, 25.f * rozmiar, -5.f * rozmiar, 20.f * rozmiar, kolorCiemnoCiemnoSzary);
+	Walec felgaTylLewoMala = Walec(7.5f * rozmiar, 10.f * rozmiar, 25.f * rozmiar, -5.f * rozmiar, 22.5f * rozmiar, kolorJasnoSzary);
 
 	// Ko³o ty³ prawo ma³e
 	Walec koloTylPrawoMale = Walec(15.f * rozmiar, -10.f * rozmiar, 25.f * rozmiar, -5.f * rozmiar, -20.f * rozmiar, kolorCiemnoCiemnoSzary);
-
+	Walec felgaTylPrawoMala = Walec(7.5f * rozmiar, -10.f * rozmiar, 25.f * rozmiar, -5.f * rozmiar, -22.5f * rozmiar, kolorJasnoSzary);
 
 	//Prostopadloscian(40.0f * rozmiar, 20.0f * rozmiar, 30.0f * rozmiar, 0.f * rozmiar, 0.f * rozmiar, 10.f * rozmiar); // dolny
 	//Prostopadloscian(60.0f * rozmiar, 30.f * rozmiar, 30.0f * rozmiar, 0.0f * rozmiar, 30.0f * rozmiar, 0.0f * rozmiar); // gorny

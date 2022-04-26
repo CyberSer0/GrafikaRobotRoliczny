@@ -6,7 +6,7 @@ Ostroslup::Ostroslup(GLfloat dlugosc, GLfloat szerokosc, GLfloat wysokosc, GLflo
 	GLfloat spod2[3] = { posX - dlugosc / 2, posY, posZ + szerokosc / 2 };
 	GLfloat spod3[3] = { posX + dlugosc / 2, posY, posZ - szerokosc / 2 };
 	GLfloat spod4[3] = { posX - dlugosc / 2, posY, posZ - szerokosc / 2 };
-	GLfloat wierzcholek[3] = {0, posY + wysokosc, 0};
+	GLfloat wierzcholek[3] = {posX, posY + wysokosc, posZ};
 	
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 

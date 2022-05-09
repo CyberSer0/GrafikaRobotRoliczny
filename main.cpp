@@ -782,7 +782,7 @@ void RenderScene(void)
 	//walec(40, 40);
 	
 	Kombajn kombajn = Kombajn(0.75f);
-	Ziemia ziemia = Ziemia(1.f);
+	Ziemia ziemia = Ziemia(25.f);
 	Dom dom = Dom(0.75f);
 	Ogrodzenie ogrodzenie = Ogrodzenie(0.75f);
 	Siano siano = Siano(0.75f);

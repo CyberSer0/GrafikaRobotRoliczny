@@ -5,6 +5,8 @@
 #include "Walec.h"
 #include <math.h>
 #include <vector>
+#include <time.h>
+#include <iostream>
 
 class Ziemia
 {
@@ -16,14 +18,8 @@ private:
         GLfloat z;
 
     };
-    struct Trojkat
-    {
-        int v1;
-        int v2;
-        int v3;
-    };
     std::vector< Vector3 > vertices;
-    std::vector< Trojkat > faces;
+    std::vector< Vector3 > faces;
 public:
 	Ziemia(GLfloat rozmiar);
 	~Ziemia();

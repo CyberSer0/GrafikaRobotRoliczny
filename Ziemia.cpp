@@ -23,7 +23,15 @@ Ziemia::Ziemia(GLfloat rozmiar)
         char lineHeader[128];
         int res = fscanf(powierzchnia, "%s", lineHeader);
         if (res == EOF) break;
-        if (strcmp(lineHeader, "v") == 0)
+        if (strcmp(lineHeader, "f") == 0)
+        {
+            Vector3 face;
+            fscanf(powierzchnia, "%f %f %f\n", &face.x, &face.y, &face.z);
+            face.x--;
+            face.y--;
+            face.z--;
+            faces.push_back(face);
+        } else if (strcmp(lineHeader, "v") == 0)
         {
             Vector3 vertex;
             fscanf(powierzchnia, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
@@ -31,22 +39,15 @@ Ziemia::Ziemia(GLfloat rozmiar)
         }
     }
     
-    int colorSwitch = 0;
-    glBegin(GL_TRIANGLE_STRIP);
-    for (int i = 0; i < vertices.size(); i++)
+    for (int i = 0; i < faces.size(); i++)
     {
-        switch (colorSwitch)
-        {
-        case 0:
-            glColor3f(kolorZielony[0], kolorZielony[1], kolorZielony[2]);
-            colorSwitch = 1;
-        case 1:
-            glColor3f(kolorCiemnoCzerwony[0], kolorCiemnoCzerwony[1], kolorCiemnoCzerwony[2]);
-            colorSwitch = 0;
-        }
-        glVertex3f(vertices[i].x * rozmiar, (vertices[i].y - 10.f) * rozmiar, vertices[i].z * rozmiar);
+        glBegin(GL_TRIANGLES);
+        glColor3f(rand() * 0.5, rand() * 0.3, 0);
+            glVertex3f(vertices[faces[i].x].x * rozmiar, (vertices[faces[i].x].y) * rozmiar, vertices[faces[i].x].z * rozmiar);
+            glVertex3f(vertices[faces[i].y].x * rozmiar, (vertices[faces[i].y].y) * rozmiar, vertices[faces[i].y].z * rozmiar);
+            glVertex3f(vertices[faces[i].z].x * rozmiar, (vertices[faces[i].z].y) * rozmiar, vertices[faces[i].z].z * rozmiar);
+        glEnd();
     }
-    glEnd();
 
 	//Prostopadloscian ziemia = Prostopadloscian(750.f * rozmiar, 0.f * rozmiar, 750.f * rozmiar, -450.f * rozmiar, -20.f * rozmiar, -450.f * rozmiar, kolorZielony);
 }

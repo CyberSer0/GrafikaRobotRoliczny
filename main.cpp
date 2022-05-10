@@ -150,21 +150,20 @@ int main( void )
 	}
 
 	glfwMakeContextCurrent(window);
-	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST | GL_CULL_FACE);
 	InitObjects();
+	glViewport(0.0f, 0.0f, screenWidth, screenHeight);
 
 	while(!glfwWindowShouldClose(window))
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
-		
+		glfwPollEvents();
 		glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
 		glfwGetCursorPos(window, &newMousePosY, &newMousePosX);
-		glViewport(0.0f, 0.0f, screenWidth, screenHeight);
 		kamera->update();
+		
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		RenderScene();
-
 		glfwSwapBuffers(window);
-		glfwPollEvents();
 	}
 
 	glfwTerminate();

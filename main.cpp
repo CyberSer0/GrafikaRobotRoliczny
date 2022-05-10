@@ -35,6 +35,7 @@
 #include "Ogrodzenie.h"
 #include "Siano.h"
 #include "Kamera.h"
+#include "BMP.h"
 
 
 #define SCREEN_WIDTH 1280
@@ -88,9 +89,9 @@ int DrawObjects()
 {
 	kombajn->draw();
 	ziemia->draw();
-	dom->draw();
 	ogrodzenie->draw();
 	siano->draw();
+	dom->draw();
 	return 0;
 }
 
@@ -98,8 +99,6 @@ int DrawObjects()
 // Called to draw scene
 void RenderScene(void)
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	glPushMatrix();
 	if (mouseWindowFocus)
 	{
@@ -120,6 +119,7 @@ void RenderScene(void)
 int main( void )
 {
 	GLFWwindow *window;
+	BMP ziemiaTekstura = BMP("trawa.bmp");
 
 	float orthoZoom = 2.5f;
 
@@ -153,6 +153,11 @@ int main( void )
 	glEnable(GL_DEPTH_TEST | GL_CULL_FACE);
 	InitObjects();
 	glViewport(0.0f, 0.0f, screenWidth, screenHeight);
+
+	GLuint texture = 0;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, ziemiaTekstura.HasAlphaChannel() ? GL_RGBA : GL_RGB, ziemiaTekstura.GetWidth(), ziemiaTekstura.GetWidth(), 0, ziemiaTekstura.HasAlphaChannel() ? GL_BGRA : GL_BGR, GL_UNSIGNED_BYTE, ziemiaTekstura.GetPixels().data());
 
 	while(!glfwWindowShouldClose(window))
 	{

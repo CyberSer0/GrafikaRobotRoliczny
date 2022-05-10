@@ -3,6 +3,7 @@
 
 #include "Prostopadloscian.h"
 #include "Walec.h"
+#include "BMP.h"
 #include <math.h>
 #include <vector>
 #include <time.h>
@@ -35,4 +36,5 @@ public:
 	Ziemia(GLfloat rozmiar);
 	~Ziemia();
     void draw();
+    void setTexture(BMP tex);
 };

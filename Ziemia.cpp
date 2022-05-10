@@ -58,3 +58,11 @@ void Ziemia::draw()
         glEnd();
     }
 }
+
+void Ziemia::setTexture(BMP tex)
+{
+    GLuint textureid;
+    glGenTextures(1, &textureid);
+    glBindTexture(GL_TEXTURE_2D, textureid);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tex.GetWidth(), tex.GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, tex.GetPixels());
+}

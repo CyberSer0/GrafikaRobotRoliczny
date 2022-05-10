@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BMP.cpp" />
     <ClCompile Include="Dom.cpp" />
     <ClCompile Include="Kamera.cpp" />
     <ClCompile Include="Kombajn.cpp" />
@@ -166,12 +167,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dom.h" />
+    <ClInclude Include="BMP.h" />
     <ClInclude Include="Kamera.h" />
     <ClInclude Include="Kombajn.h" />
     <ClInclude Include="Ogrodzenie.h" />
     <ClInclude Include="Ostroslup.h" />
     <ClInclude Include="Prostopadloscian.h" />
     <ClInclude Include="Siano.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="Walec.h" />
     <ClInclude Include="Ziemia.h" />
   </ItemGroup>

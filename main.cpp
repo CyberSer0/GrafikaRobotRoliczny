@@ -1,17 +1,12 @@
-﻿// Gl_template.c
-//Wy��czanie b��d�w przed "fopen"
+﻿// main.cpp
+// Ignore fopen errors
 #define  _CRT_SECURE_NO_WARNINGS
 
-
-
-// �adowanie bibliotek:
-
+// OpenGL libraries
 #ifdef _MSC_VER                         // Check if MS Visual C compiler
 #  pragma comment(lib, "opengl32.lib")  // Compiler-specific directive to avoid manually configuration
 #  pragma comment(lib, "glu32.lib")     // Link libraries
 #endif
-
-
 
 
 // Ustalanie trybu tekstowego:
@@ -30,6 +25,8 @@
 #include <windows.h>            // Window defines
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <cmath>				// Define for sqrt
 #include <cstdio>
 #include "Kombajn.h"
@@ -47,10 +44,7 @@
 #define GL_PI 3.14
 
 
-// Rotation amounts
-static GLfloat xRot = 0.0f;
-static GLfloat yRot = 0.0f;
-
+// Translations
 
 // Zmienne przechowujące obiekty
 Kombajn* kombajn;
@@ -65,9 +59,11 @@ static void cursorPositionCallback( GLFWwindow *window, double xpos, double ypos
 void cursorEnterCallback( GLFWwindow *window, int entered );
 void mouseButtonCallback( GLFWwindow *window, int button, int action, int mods );
 void scrollCallback( GLFWwindow *window, double xoffset, double yoffset );
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-
-int mouseCameraRotation = 0;
+int screenWidth = SCREEN_WIDTH;
+int screenHeight = SCREEN_HEIGHT;
+int mouseWindowFocus = 0;
 double oldMousePosX = SCREEN_WIDTH / 2;
 double oldMousePosY = SCREEN_HEIGHT / 2;
 double newMousePosX = SCREEN_WIDTH / 2;
@@ -82,7 +78,8 @@ int InitObjects()
 	dom = new Dom({-325.f, 135.f, -250.f}, 0.75f);
 	ogrodzenie = new Ogrodzenie({-225.f, 135.f, -350.f}, 0.75f);
 	siano = new Siano({-250.f, 100.f, -110.f}, 1.f);
-	kamera = new Kamera(0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f);
+	kamera = new Kamera({ 100.f, 100.f, 100.f }, { screenWidth, screenHeight }, 60.f, 0.f, 400.f);
+	
 	return 0;
 }
 
@@ -103,23 +100,11 @@ void RenderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	if (mouseCameraRotation)
+	glPushMatrix();
+	if (mouseWindowFocus)
 	{
-		if (oldMousePosX != newMousePosX)
-		{
-			glPushMatrix();
-			xRot = newMousePosX - oldMousePosX;
-			
-		}
-		if (oldMousePosY != newMousePosY)
-		{
-			
-			glPushMatrix();
-			yRot = newMousePosY - oldMousePosY;
-		}
+		
 	}
-
-
 
 	glPolygonMode(GL_BACK, GL_LINE);
 
@@ -127,7 +112,7 @@ void RenderScene(void)
 
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
-
+	
 	glFlush();
 }
 
@@ -135,6 +120,8 @@ void RenderScene(void)
 int main( void )
 {
 	GLFWwindow *window;
+
+	float orthoZoom = 2.5f;
 
 	if(!glfwInit())
 	{
@@ -153,19 +140,8 @@ int main( void )
 
 	glfwSetScrollCallback(window, scrollCallback);
 
-
-
-	//unsigned char pixels[16 * 16 * 4];
-	//memset(pixels, 0xff, sizeof(pixels));
-	//GLFWimage image;
-	//image.width = 16;
-	//image.height = 16;
-	//image.pixels = pixels;
-	//GLFWcursor *cursor = glfwCreateCursor(&image, 0, 0);
-	//glfwSetCursor(window, cursor);
-
-	int screenWidth, screenHeight;
-	glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
+	glfwSetKeyCallback(window, keyCallback);
+	glfwSetInputMode(window, GLFW_STICKY_KEYS, 1);
 
 	if (!window)
 	{
@@ -174,24 +150,17 @@ int main( void )
 	}
 
 	glfwMakeContextCurrent(window);
-
-	glViewport(0.0f, 0.0f, screenWidth, screenHeight);
-	glLoadIdentity();
-	glMatrixMode(GL_PROJECTION);
-	gluLookAt(0.f, 2.f, 0.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f);
-	//glOrtho(-SCREEN_WIDTH, SCREEN_WIDTH, -SCREEN_HEIGHT, SCREEN_HEIGHT, 0, 400);
-	gluPerspective(60.0f,screenWidth / screenHeight,1, 400);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
+	glEnable(GL_DEPTH_TEST);
 	InitObjects();
 
 	while(!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		
+		glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
 		glfwGetCursorPos(window, &newMousePosY, &newMousePosX);
-
+		glViewport(0.0f, 0.0f, screenWidth, screenHeight);
+		kamera->update();
 		RenderScene();
 
 		glfwSwapBuffers(window);
@@ -227,13 +196,13 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 	{
 		std::cout << "Right button pressed" << std::endl;
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		mouseCameraRotation = 0;
+		mouseWindowFocus = 0;
 	}
 	if(button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 	{
 		std::cout << "Left button pressed" << std::endl;
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		mouseCameraRotation = 1;
+		mouseWindowFocus = 1;
 	}
 }
 
@@ -241,4 +210,34 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 void scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	std::cout << xoffset << " : " << yoffset << std::endl;
+}
+
+
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	std::cout << key << " pressed" << std::endl;
+	if (key == GLFW_KEY_W && action == GLFW_REPEAT)
+	{
+		kamera->move({5.f, 0.f, 0.f});
+	}
+	if (key == GLFW_KEY_S && (action == GLFW_REPEAT || action == GLFW_PRESS))
+	{
+		kamera->move({ -5.f, 0.f, 0.f });
+	}
+	if (key == GLFW_KEY_A && (action == GLFW_REPEAT || action == GLFW_PRESS))
+	{
+		kamera->move({ 0.f, 0.f, -5.f });
+	}
+	if (key == GLFW_KEY_D && (action == GLFW_REPEAT || action == GLFW_PRESS))
+	{
+		kamera->move({ 0.f, 0.f, 5.f });
+	}
+	if (key == GLFW_KEY_SPACE && (action == GLFW_REPEAT || action == GLFW_PRESS))
+	{
+		kamera->move({ 0.f, 5.f, 0.f });
+	}
+	if (key == GLFW_KEY_LEFT_CONTROL && (action == GLFW_REPEAT || action == GLFW_PRESS))
+	{
+		kamera->move({ 0.f, -5.f, 0.f });
+	}
 }

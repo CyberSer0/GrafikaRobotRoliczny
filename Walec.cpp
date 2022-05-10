@@ -1,52 +1,80 @@
 #include "Walec.h"
 
-Walec::Walec(GLfloat promien, GLfloat dlugosc, GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat kolory[3])
+Walec::Walec()
 {
-	glColor3f(kolory[0], kolory[1], kolory[2]);
+	m_posX = 0.f;
+	m_posY = 0.f;
+	m_posZ = 0.f;
+	m_promien = 1.f;
+	m_dlugosc = 1.f;
+	kolor[0] = 0.5f;
+	kolor[1] = 0.5f;
+	kolor[2] = 0.5f;
+}
+
+Walec::Walec(GLfloat promien, GLfloat dlugosc, GLfloat posX, GLfloat posY, GLfloat posZ)
+{
+	m_posX = posX;
+	m_posY = posY;
+	m_posZ = posZ;
+	m_promien = promien;
+	m_dlugosc = dlugosc;
+}
+
+Walec::~Walec()
+{
+	
+}
+
+void Walec::draw()
+{
+	glColor3f(kolor[0], kolor[1], kolor[2]);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(posX, posY, posZ);
+	glVertex3f(m_posX, m_posY, m_posZ);
 	for (int i = 0; i <= 20; i++)
 	{
-		glVertex3f(posX + (promien * cos(i * 2.0f * 3.14 / 20)),
-			posY + (promien * sin(i * 2.0f * 3.14 / 20)), 0 + posZ);
+		glVertex3f(m_posX + (m_promien * cos(i * 2.0f * 3.14 / 20)),
+			m_posY + (m_promien * sin(i * 2.0f * 3.14 / 20)), 0 + m_posZ);
 	}
 
 	int i = 21;
-	glVertex3f(posX + (promien * cos(i * 2.0f * 3.14 / 20)),
-		posY + (promien * sin(i * 2.0f * 3.14 / 20)), 0 + posZ);
+	glVertex3f(m_posX + (m_promien * cos(i * 2.0f * 3.14 / 20)),
+		m_posY + (m_promien * sin(i * 2.0f * 3.14 / 20)), 0 + m_posZ);
 
 	glEnd();
-	glColor3f(kolory[0], kolory[1], kolory[2]);
+	glColor3f(kolor[0], kolor[1], kolor[2]);
 	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(posX, posY, posZ + dlugosc);
+	glVertex3f(m_posX, m_posY, m_posZ + m_dlugosc);
 	for (int i = 0; i <= 20; i++)
 	{
-		glVertex3f(posX + (promien * cos(i * 2.0f * 3.14 / 20)),
-			posY + (promien * sin(i * 2.0f * 3.14 / 20)), dlugosc + posZ);
+		glVertex3f(m_posX + (m_promien * cos(i * 2.0f * 3.14 / 20)),
+			m_posY + (m_promien * sin(i * 2.0f * 3.14 / 20)), m_dlugosc + m_posZ);
 	}
 	i = 21;
-	glVertex3f(posX + (promien * cos(i * 2.0f * 3.14 / 20)),
-		posY + (promien * sin(i * 2.0f * 3.14 / 20)), dlugosc + posZ);
+	glVertex3f(m_posX + (m_promien * cos(i * 2.0f * 3.14 / 20)),
+		m_posY + (m_promien * sin(i * 2.0f * 3.14 / 20)), m_dlugosc + m_posZ);
 
 	glEnd();
 
 	int j = 0;
-	glColor3f(kolory[0], kolory[1], kolory[2]);
+	glColor3f(kolor[0] * 0.88f, kolor[1] * 0.88f, kolor[2] * 0.88f);
 	glBegin(GL_TRIANGLE_STRIP);
 
 	for (j = 0; j <= 20; j++)
 	{
-		glVertex3f(posX + (promien * cos(j * 2.0f * 3.14 / 20)),
-			posY + (promien * sin(j * 2.0f * 3.14 / 20)), dlugosc + posZ);
-		glVertex3f(posX + (promien * cos(j * 2.0f * 3.14 / 20)),
-			posY + (promien * sin(j * 2.0f * 3.14 / 20)), 0 + posZ);
+		glVertex3f(m_posX + (m_promien * cos(j * 2.0f * 3.14 / 20)),
+			m_posY + (m_promien * sin(j * 2.0f * 3.14 / 20)), m_dlugosc + m_posZ);
+		glVertex3f(m_posX + (m_promien * cos(j * 2.0f * 3.14 / 20)),
+			m_posY + (m_promien * sin(j * 2.0f * 3.14 / 20)), 0 + m_posZ);
 
 	}
 	glEnd();
 }
 
-Walec::~Walec()
+void Walec::setColor(GLfloat red, GLfloat green, GLfloat blue)
 {
-
+	kolor[0] = red;
+	kolor[1] = green;
+	kolor[2] = blue;
 }

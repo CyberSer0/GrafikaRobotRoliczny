@@ -73,6 +73,16 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 // Dialog procedure for about box
 BOOL APIENTRY AboutDlgProc(HWND hDlg, UINT message, UINT wParam, LONG lParam);
 
+
+// Zmienne przechowujące obiekty
+Kombajn* kombajn;
+Ziemia* ziemia;
+Dom* dom;
+Ogrodzenie* ogrodzenie;
+Siano* siano;
+Kamera* kamera;
+
+
 // Set Pixel Format function - forward declaration
 void SetDCPixelFormat(HDC hDC);
 
@@ -152,15 +162,15 @@ void ChangeSize(GLsizei w, GLsizei h)
 	glLoadIdentity();
 
 	// Establish clipping volume (left, right, bottom, top, near, far)
-	if (w <= h)
+	/*if (w <= h)
 		glOrtho(-nRange, nRange, -nRange * h / w, nRange * h / w, -2 * nRange, 2 * nRange);
 	else
-		glOrtho(-nRange * w / h, nRange * w / h, -nRange, nRange, -2 * nRange, 2 * nRange);
+		glOrtho(-nRange * w / h, nRange * w / h, -nRange, nRange, -2 * nRange, 2 * nRange);*/
 
 	// Establish perspective: 
-	/*
+	
 	gluPerspective(60.0f,fAspect,1.0,400);
-	*/
+	
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -213,547 +223,31 @@ void SetupRC()
 	glColor3f(0.0, 0.0, 0.0);
 }
 
-void skrzynka(void)
-{
-	glColor3d(0.8, 0.7, 0.3);
-
-
-	glEnable(GL_TEXTURE_2D); // W��cz teksturowanie
-
-	glBindTexture(GL_TEXTURE_2D, texture[0]);
-	glBegin(GL_QUADS);
-	glNormal3d(0, 0, 1);
-	glTexCoord2d(1.0, 1.0); glVertex3d(25, 25, 25);
-	glTexCoord2d(0.0, 1.0); glVertex3d(-25, 25, 25);
-	glTexCoord2d(0.0, 0.0); glVertex3d(-25, -25, 25);
-	glTexCoord2d(1.0, 0.0); glVertex3d(25, -25, 25);
-	glEnd();
-	glBindTexture(GL_TEXTURE_2D, texture[1]);
-	glBegin(GL_QUADS);
-	glNormal3d(1, 0, 0);
-	glTexCoord2d(1.0, 1.0); glVertex3d(25, 25, 25);
-	glTexCoord2d(0.0, 1.0); glVertex3d(25, -25, 25);
-	glTexCoord2d(0.0, 0.0); glVertex3d(25, -25, -25);
-	glTexCoord2d(1.0, 0.0); glVertex3d(25, 25, -25);
-	glEnd();
-
-	glDisable(GL_TEXTURE_2D); // Wy��cz teksturowanie
-
-
-
-	glBegin(GL_QUADS);
-	glNormal3d(0, 0, -1);
-	glVertex3d(25, 25, -25);
-	glVertex3d(25, -25, -25);
-	glVertex3d(-25, -25, -25);
-	glVertex3d(-25, 25, -25);
-
-	glNormal3d(-1, 0, 0);
-	glVertex3d(-25, 25, -25);
-	glVertex3d(-25, -25, -25);
-	glVertex3d(-25, -25, 25);
-	glVertex3d(-25, 25, 25);
-
-	glNormal3d(0, 1, 0);
-	glVertex3d(25, 25, 25);
-	glVertex3d(25, 25, -25);
-	glVertex3d(-25, 25, -25);
-	glVertex3d(-25, 25, 25);
-
-	glNormal3d(0, -1, 0);
-	glVertex3d(25, -25, 25);
-	glVertex3d(-25, -25, 25);
-	glVertex3d(-25, -25, -25);
-	glVertex3d(25, -25, -25);
-	glEnd();
-}
-
-void walec01(void)
-{
-	GLUquadricObj* obj;
-	obj = gluNewQuadric();
-	gluQuadricNormals(obj, GLU_SMOOTH);
-	glColor3d(1, 0, 0);
-	glPushMatrix();
-	gluCylinder(obj, 20, 20, 30, 15, 7);
-	gluCylinder(obj, 0, 20, 0, 15, 7);
-	glTranslated(0, 0, 60);
-	glRotated(180.0, 0, 1, 0);
-	gluCylinder(obj, 0, 20, 30, 15, 7);
-	glPopMatrix();
-}
-
-void kula(void)
-{
-	GLUquadricObj* obj;
-	obj = gluNewQuadric();
-	gluQuadricTexture(obj, GL_TRUE);
-	glBindTexture(GL_TEXTURE_2D, texture[0]);
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glColor3d(1.0, 0.8, 0.8);
-	glEnable(GL_TEXTURE_2D);
-	gluSphere(obj, 40, 15, 7);
-	glDisable(GL_TEXTURE_2D);
-}
-
-
-
-
-// LoadBitmapFile
-// opis: �aduje map� bitow� z pliku i zwraca jej adres.
-//       Wype�nia struktur� nag��wka.
-//	 Nie obs�uguje map 8-bitowych.
-unsigned char* LoadBitmapFile(char* filename, BITMAPINFOHEADER* bitmapInfoHeader)
-{
-	FILE* filePtr;							// wska�nik pozycji pliku
-	BITMAPFILEHEADER	bitmapFileHeader;		// nag��wek pliku
-	unsigned char* bitmapImage;			// dane obrazu
-	unsigned int		imageIdx = 0;		// licznik pikseli
-	unsigned char		tempRGB;				// zmienna zamiany sk�adowych
-
-	// otwiera plik w trybie "read binary"
-	filePtr = fopen(filename, "rb");
-	if (filePtr == NULL)
-		return NULL;
-
-	// wczytuje nag��wek pliku
-	fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
-
-	// sprawdza, czy jest to plik formatu BMP
-	if (bitmapFileHeader.bfType != BITMAP_ID)
-	{
-		fclose(filePtr);
-		return NULL;
-	}
-
-	// wczytuje nag��wek obrazu
-	fread(bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, filePtr);
-
-	// ustawia wska�nik pozycji pliku na pocz�tku danych obrazu
-	fseek(filePtr, bitmapFileHeader.bfOffBits, SEEK_SET);
-
-	// przydziela pami�� buforowi obrazu
-	bitmapImage = (unsigned char*)malloc(bitmapInfoHeader->biSizeImage);
-
-	// sprawdza, czy uda�o si� przydzieli� pami��
-	if (!bitmapImage)
-	{
-		free(bitmapImage);
-		fclose(filePtr);
-		return NULL;
-	}
-
-	// wczytuje dane obrazu
-	fread(bitmapImage, 1, bitmapInfoHeader->biSizeImage, filePtr);
-
-	// sprawdza, czy dane zosta�y wczytane
-	if (bitmapImage == NULL)
-	{
-		fclose(filePtr);
-		return NULL;
-	}
-
-	// zamienia miejscami sk�adowe R i B 
-	for (imageIdx = 0; imageIdx < bitmapInfoHeader->biSizeImage; imageIdx += 3)
-	{
-		tempRGB = bitmapImage[imageIdx];
-		bitmapImage[imageIdx] = bitmapImage[imageIdx + 2];
-		bitmapImage[imageIdx + 2] = tempRGB;
-	}
-
-	// zamyka plik i zwraca wska�nik bufora zawieraj�cego wczytany obraz
-	fclose(filePtr);
-	return bitmapImage;
-}
-
-
-
-
-void walec2(double r, double h, float igrek, float iks, float zet)
-{
-	double x, y, alpha, PI = 3.14;
-	glBegin(GL_TRIANGLE_FAN);
-	glColor3d(0.8, 0.0, 0);
-	glVertex3d(0 + iks, 0 + igrek, 0 + zet);
-	for (alpha = 0; alpha <= 2 * PI; alpha += PI / 8.0)
-	{
-		x = r * sin(alpha);
-		y = r * cos(alpha);
-		glVertex3d(0 + iks, y + igrek, x + zet);
-	}
-	glEnd();
-
-	glBegin(GL_QUAD_STRIP);
-	for (alpha = 0.0; alpha <= 2 * PI; alpha += PI / 8.0)
-	{
-		x = r * sin(alpha);
-		y = r * cos(alpha);
-		glVertex3d(0 + iks, y + igrek, x + zet);
-		glVertex3d(h + iks, y + igrek, x + zet);
-	}
-	glEnd();
-
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3d(h + iks, 0 + igrek, 0 + zet);
-	for (alpha = 0; alpha >= -2 * PI; alpha -= PI / 8.0)
-	{
-		x = r * sin(alpha);
-		y = r * cos(alpha);
-		glVertex3d(h + iks, y + igrek, x + zet);
-	}
-	glEnd();
-}
-
-
-/*
-void kolo2(double r, double h, float iks, float igrek, float zet)
-{
-	double x, y, alpha, PI = 3.14;
-	glBegin(GL_TRIANGLE_FAN);
-	glColor3d(0.8, 0.0, 0);
-	glVertex3d(0 + iks, 0 + igrek, 0 + zet);
-	for (alpha = 0; alpha <= 2 * PI; alpha += PI / 8.0)
-	{
-		x = r * sin(alpha);
-		y = r * cos(alpha);
-		glVertex3d(0 + iks, y + igrek, x + zet);
-	}
-	glEnd();
-
-	glBegin(GL_QUAD_STRIP);
-	for (alpha = 0.0; alpha <= 2 * PI; alpha += PI / 8.0)
-	{
-		x = r * sin(alpha);
-		y = r * cos(alpha);
-		glVertex3d(0 + iks, y + igrek, x + zet);
-		glVertex3d(h + iks, y + igrek, x + zet);
-	}
-	glEnd();
-
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3d(h + iks, 0 + igrek, 0 + zet);
-	for (alpha = 0; alpha >= -2 * PI; alpha -= PI / 8.0)
-	{
-		x = r * sin(alpha);
-		y = r * cos(alpha);
-		glVertex3d(h + iks, y + igrek, x + zet);
-	}
-	glEnd();
-}
-*/
-
 
 float alpha = 0;
 
-void kolo(GLfloat x, GLfloat y, GLfloat z, GLfloat dlugosc, GLfloat promien)
+// Inicjalizacja obiektów
+int InitObjects()
 {
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(x, y, z);
-	for (int i = 0; i <= 20; i++)
-	{
-		glVertex3f(x + (promien * cos(i * 2.0f * 3.14 / 20)),
-			y + (promien * sin(i * 2.0f * 3.14 / 20)), 0 + z);
-	}
-
-	int i = 21;
-	glVertex3f(x + (promien * cos(i * 2.0f * 3.14 / 20)),
-		y + (promien * sin(i * 2.0f * 3.14 / 20)), 0 + z);
-
-	glEnd();
-	glColor3f(1.0f, 1.0f, 0.0f);
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(x, y, z + dlugosc);
-	for (int i = 0; i <= 20; i++)
-	{
-		glVertex3f(x + (promien * cos(i * 2.0f * 3.14 / 20)),
-			y + (promien * sin(i * 2.0f * 3.14 / 20)), dlugosc + z);
-	}
-	i = 21;
-	glVertex3f(x + (promien * cos(i * 2.0f * 3.14 / 20)),
-		y + (promien * sin(i * 2.0f * 3.14 / 20)), dlugosc + z);
-
-	glEnd();
-
-	int j = 0;
-	glColor3f(0.0f, 1.0f, 1.0f);
-	glBegin(GL_TRIANGLE_STRIP);
-
-	for (j = 0; j <= 20; j++)
-	{
-		glVertex3f(x + (promien * cos(j * 2.0f * 3.14 / 20)),
-			y + (promien * sin(j * 2.0f * 3.14 / 20)), dlugosc + z);
-		glVertex3f(x + (promien * cos(j * 2.0f * 3.14 / 20)),
-			y + (promien * sin(j * 2.0f * 3.14 / 20)), 0 + z);
-
-	}
-	glEnd();
-
+	srand(time(0));
+	kombajn = new Kombajn(0.75f);
+	ziemia = new Ziemia(25.f);
+	dom = new Dom({-325.f, 135.f, -250.f}, 0.75f);
+	ogrodzenie = new Ogrodzenie({-225.f, 135.f, -350.f}, 0.75f);
+	siano = new Siano({-250.f, 100.f, -110.f}, 1.f);
+	kamera = new Kamera(0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f);
+	return 0;
 }
 
-
-void kolo2(GLfloat x, GLfloat y, GLfloat z, GLfloat dlugosc, GLfloat promien)
+// Rendering objects
+int DrawObjects()
 {
-	glColor3f(0.5f, 0.5f, 0.5f);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(x, y, z);
-	for (int i = 0; i <= 20; i++)
-	{
-		glVertex3f(x + (promien * cos(i * 2.0f * 3.14 / 20)),
-			y + (promien * sin(i * 2.0f * 3.14 / 20)), 0 + z);
-	}
-
-	int i = 21;
-	glVertex3f(x + (promien * cos(i * 2.0f * 3.14 / 20)),
-		y + (promien * sin(i * 2.0f * 3.14 / 20)), 0 + z);
-
-	glEnd();
-	//glColor3f(1.0f, 1.0f, 0.0f);
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(x, y, z + dlugosc);
-	for (int i = 0; i <= 20; i++)
-	{
-		glVertex3f(x + (promien * cos(i * 2.0f * 3.14 / 20)),
-			y + (promien * sin(i * 2.0f * 3.14 / 20)), dlugosc + z);
-	}
-	i = 21;
-	glVertex3f(x + (promien * cos(i * 2.0f * 3.14 / 20)),
-		y + (promien * sin(i * 2.0f * 3.14 / 20)), dlugosc + z);
-
-	glEnd();
-
-	int j = 0;
-	//glColor3f(0.0f, 1.0f, 1.0f);
-	glBegin(GL_TRIANGLE_STRIP);
-
-	for (j = 0; j <= 20; j++)
-	{
-		glVertex3f(x + (promien * cos(j * 2.0f * 3.14 / 20)),
-			y + (promien * sin(j * 2.0f * 3.14 / 20)), dlugosc + z);
-		glVertex3f(x + (promien * cos(j * 2.0f * 3.14 / 20)),
-			y + (promien * sin(j * 2.0f * 3.14 / 20)), 0 + z);
-
-	}
-	glEnd();
-
-}
-
-
-
-
-/*int iloscTrojkatow = 20;
-
-glColor3f(1.0f, 0.0f, 0.0f);
-glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-glBegin(GL_TRIANGLE_FAN);
-glVertex3f(x, y, z);
-for (int i = 0; i <= iloscTrojkatow; i++)
-{
-	glVertex3f(x + (promien * cos(i * 2.0f * 3.14 / iloscTrojkatow)),
-		y + (promien * sin(i * 2.0f * 3.14 / iloscTrojkatow)), 0 + z);
-}
-glEnd();
-glColor3f(1.0f, 1.0f, 0.0f);
-glBegin(GL_TRIANGLE_FAN);
-glVertex3f(x, y, z + dlugosc);
-for (int i = 0; i <= iloscTrojkatow; i++)
-{
-	glVertex3f(x + (promien * cos(i * 2.0f * 3.14 / iloscTrojkatow)),
-		y + (promien * sin(i * 2.0f * 3.14 / iloscTrojkatow)), dlugosc + z);
-}
-glEnd();
-
-int j = 0;
-glColor3f(0.0f, 1.0f, 1.0f);
-glBegin(GL_TRIANGLE_STRIP);
-
-for (j = 0; j <= 20; j++)
-{
-	glVertex3f(x + (promien * cos(j * 2.0f * 3.14 / iloscTrojkatow)),
-		y + (promien * sin(j * 2.0f * 3.14 / iloscTrojkatow)), dlugosc + z);
-	glVertex3f(x + (promien * cos(j * 2.0f * 3.14 / iloscTrojkatow)),
-		y + (promien * sin(j * 2.0f * 3.14 / iloscTrojkatow)), 0 + z);
-
-}
-glEnd();
-*/
-
-void prostopadloscian(GLfloat x, GLfloat y, GLfloat z, GLfloat rozmiar, GLfloat wysokosc)
-{
-	//rozmiar = 30.0f;
-	//glBegin(GL_TRIANGLE_STRIP);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-	// Parametry wierzcholkow
-
-	GLfloat sa[3] = { x, y, z + 5 };
-	GLfloat sb[3] = { x,y,z + 5 + rozmiar };
-	GLfloat sc[3] = { x + 2 * rozmiar,y,z + 5 + rozmiar };
-	GLfloat sd[3] = { x + 2 * rozmiar,y,z + 5 };
-	GLfloat se[3] = { x, y + wysokosc, z + 5 };
-	GLfloat sf[3] = { x,y + wysokosc,z + 5 + rozmiar };
-	GLfloat sg[3] = { x + 2 * rozmiar,y + wysokosc,z + 5 + rozmiar };
-	GLfloat sh[3] = { x + 2 * rozmiar,y + wysokosc,z + 5 };
-
-	// Sciany skladowe
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glBegin(GL_POLYGON);
-	glVertex3fv(sa);
-	glVertex3fv(sb);
-	glVertex3fv(sc);
-	glVertex3fv(sd);
-	glEnd();
-
-	glColor3f(0.0f, 1.0f, 0.0f);
-	glBegin(GL_POLYGON);
-	glVertex3fv(sb);
-	glVertex3fv(sf);
-	glVertex3fv(sg);
-	glVertex3fv(sc);
-	glEnd();
-
-	glColor3f(0.0f, 0.0f, 1.0f);
-	glBegin(GL_POLYGON);
-	glVertex3fv(sf);
-	glVertex3fv(se);
-	glVertex3fv(sh);
-	glVertex3fv(sg);
-	glEnd();
-
-	glColor3f(1.0f, 1.0f, 0.0f);
-	glBegin(GL_POLYGON);
-	glVertex3fv(se);
-	glVertex3fv(sa);
-	glVertex3fv(sd);
-	glVertex3fv(sh);
-	glEnd();
-
-	glColor3f(0.0f, 1.0f, 1.0f);
-	glBegin(GL_POLYGON);
-	glVertex3fv(sd);
-	glVertex3fv(sc);
-	glVertex3fv(sg);
-	glVertex3fv(sh);
-	glEnd();
-
-	glColor3f(1.0f, 0.0f, 1.0f);
-	glBegin(GL_POLYGON);
-	glVertex3fv(sa);
-	glVertex3fv(sb);
-	glVertex3fv(sf);
-	glVertex3fv(se);
-	glEnd();
-
-}
-
-//SCIANY FRONTOW4E
-//fan
-
-void walec(double r, double h)// double x, double y, double z)
-{
-	double x, y, alpha, PI = 3.14;
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glBegin(GL_TRIANGLE_FAN);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glColor3d(1.0, 0.0, 0);
-	glVertex3d(0, 0, 0);
-	for (alpha = 0; alpha <= 2 * PI; alpha += PI / 8.0)
-	{
-		x = r * sin(alpha);
-		y = r * cos(alpha);
-		glVertex3d(x, y, 0);
-	}
-	glEnd();
-
-	glBegin(GL_QUAD_STRIP);
-	for (alpha = 0.0; alpha <= 2 * PI; alpha += PI / 8.0)
-	{
-		x = r * sin(alpha);
-		y = r * cos(alpha);
-		glVertex3d(x, y, 0);
-		glVertex3d(x, y, h);
-	}
-	glEnd();
-
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3d(0, 0, h);
-	for (alpha = 0; alpha >= -2 * PI; alpha -= PI / 8.0)
-	{
-		x = r * sin(alpha);
-		y = r * cos(alpha);
-		glVertex3d(x, y, h);
-	}
-	glEnd();
-}
-
-void ramie(double r1, double r2, double h, double d)
-{
-	double PI = 3.14, alpha, x, y;
-	glBegin(GL_TRIANGLE_FAN);
-	glColor3d(0.8, 0.0, 0);
-	glVertex3d(0, 0, 0);
-	for (alpha = PI; alpha <= 2 * PI; alpha += PI / 8.0)
-	{
-		x = r1 * sin(alpha);
-		y = r1 * cos(alpha);
-		glVertex3d(x, y, 0);
-	}
-	glEnd();
-
-	glBegin(GL_QUAD_STRIP);
-	for (alpha = 0; alpha >= -PI; alpha -= PI / 8.0)
-	{
-		x = r1 * sin(alpha);
-		y = r1 * cos(alpha);
-		glVertex3d(x, y, h);
-		glVertex3d(x, y, 0);
-	}
-	glEnd();
-
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3d(0, 0, h);
-	for (alpha = 0; alpha >= -PI; alpha -= PI / 8.0)
-	{
-		x = r1 * sin(alpha);
-		y = r1 * cos(alpha);
-		glVertex3d(x, y, h);
-	}
-	glEnd();
-
-	glBegin(GL_TRIANGLE_FAN);
-	glColor3d(0.8, 0.0, 0);
-	//glVertex3d(d,r2,0);
-	//glVertex3d(d, r2, h);
-	for (alpha = 0; alpha <= PI; alpha += PI / 8.0)
-	{
-		x = d + r2 * sin(alpha);
-		y = d + r2 * cos(alpha);
-		glVertex3d(x, y, 0);
-	}
-	glEnd();
-
-	glBegin(GL_QUAD_STRIP);
-	//glVertex3d(d, r2, 0);
-	for (alpha = 0; alpha <= PI; alpha += PI / 8.0)
-	{
-		x = d + r2 * sin(alpha);
-		y = d + r2 * cos(alpha);
-		glVertex3d(x, y, h);
-		glVertex3d(x, y, 0);
-	}
-	glEnd();
-
-	glBegin(GL_TRIANGLE_FAN);
-	//glVertex3d(d, r2, h);
-	for (alpha = 0; alpha <= PI; alpha += PI / 8.0)
-	{
-		x = d + r2 * sin(alpha);
-		y = d + r2 * cos(alpha);
-		glVertex3d(x, y, h);
-	}
-	glEnd();
+	kombajn->draw();
+	ziemia->draw();
+	dom->draw();
+	ogrodzenie->draw();
+	siano->draw();
+	return 0;
 }
 
 
@@ -781,17 +275,14 @@ void RenderScene(void)
 	glPolygonMode(GL_BACK, GL_LINE);
 	//walec(40, 40);
 	
-	Kombajn kombajn = Kombajn(0.75f);
-	Ziemia ziemia = Ziemia(25.f);
-	Dom dom = Dom(0.75f);
-	Ogrodzenie ogrodzenie = Ogrodzenie(0.75f);
-	Siano siano = Siano(0.75f);
-	Kamera kamera = Kamera(0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f);
+	
 	//Uzyskanie siatki:
 	//glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 
 	//Wyrysowanie prostokata:
 	//glRectd(-10.0,-10.0,20.0,20.0);
+
+	DrawObjects();
 
 	/////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////
@@ -910,6 +401,9 @@ HPALETTE GetOpenGLPalette(HDC hDC)
 }
 
 
+
+
+
 // Entry point of all Windows programs
 int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
@@ -958,6 +452,8 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, PWSTR pCmdLine, in
 	if (hWnd == NULL)
 		return FALSE;
 
+	// Object initialization
+	InitObjects();
 
 	// Display the window
 	ShowWindow(hWnd, SW_SHOW);
@@ -1126,16 +622,16 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 	case WM_KEYDOWN:
 	{
 		if (wParam == VK_UP)
-			xRot += 5.0f;
-
-		if (wParam == VK_DOWN)
 			xRot -= 5.0f;
 
+		if (wParam == VK_DOWN)
+			xRot += 5.0f;
+
 		if (wParam == VK_LEFT)
-			yRot += 5.0f;
+			yRot -= 5.0f;
 
 		if (wParam == VK_RIGHT)
-			yRot -= 5.0f;
+			yRot += 5.0f;
 
 		xRot = (const int)xRot % 360;
 		yRot = (const int)yRot % 360;

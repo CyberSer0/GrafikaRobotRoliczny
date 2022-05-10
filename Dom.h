@@ -6,7 +6,17 @@
 
 class Dom
 {
+private:
+	struct Vector3
+	{
+		GLfloat x;
+		GLfloat y;
+		GLfloat z;
+	};
+	Prostopadloscian* dom;
+	Ostroslup* dach;
 public:
-	Dom(GLfloat rozmiar);
+	Dom(Vector3 pozycja, GLfloat rozmiar);
 	~Dom();
+	void draw();
 };

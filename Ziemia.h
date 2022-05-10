@@ -11,6 +11,7 @@
 class Ziemia
 {
 private:
+
     struct Vector3
     {
         GLfloat x;
@@ -18,9 +19,20 @@ private:
         GLfloat z;
 
     };
+
+    struct ColorRGB
+    {
+	    GLfloat r;
+	    GLfloat g;
+	    GLfloat b;
+    };
+    GLfloat m_rozmiar;
+
     std::vector< Vector3 > vertices;
     std::vector< Vector3 > faces;
+    std::vector< ColorRGB > colors; 
 public:
 	Ziemia(GLfloat rozmiar);
 	~Ziemia();
+    void draw();
 };

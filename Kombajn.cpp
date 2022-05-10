@@ -17,46 +17,71 @@ Kombajn::Kombajn(GLfloat rozmiar)
 	GLfloat kolorJasnoNiebieski[3] = { 0.f, 1.f, 1.f };
 
 	// Podwozie
-	Prostopadloscian podwozie = Prostopadloscian(100.f * rozmiar, 30.f * rozmiar, 45.f * rozmiar, -65.f * rozmiar, -5.f * rozmiar, -22.5f * rozmiar, kolorCiemnoSzary);
+	podwozie = new Prostopadloscian(100.f * rozmiar, 30.f * rozmiar, 45.f * rozmiar, -65.f * rozmiar, -5.f * rozmiar, -22.5f * rozmiar);
+	podwozie->setColor(kolorCiemnoSzary[0], kolorCiemnoSzary[1], kolorCiemnoSzary[2]);
 	
 	// Nadwozie
-	Prostopadloscian nadwozie = Prostopadloscian(150.f * rozmiar, 45.f * rozmiar, 75.f * rozmiar, -65.f * rozmiar, 22.5f * rozmiar, -37.5f * rozmiar, kolorCiemnoCiemnoCzerwony);
-	
+	nadwozie = new Prostopadloscian(150.f * rozmiar, 45.f * rozmiar, 75.f * rozmiar, -65.f * rozmiar, 22.5f * rozmiar, -37.5f * rozmiar);
+	nadwozie->setColor(kolorCiemnoCiemnoCzerwony[0], kolorCiemnoCiemnoCzerwony[1], kolorCiemnoCiemnoCzerwony[2]);
+
 	// Kokpit
-	Prostopadloscian kokpit = Prostopadloscian(25.f * rozmiar, 50.f * rozmiar, 40.f * rozmiar, -85.f * rozmiar, 20.f * rozmiar, -20.f * rozmiar, kolorJasnoNiebieski);
+	kokpit = new Prostopadloscian(25.f * rozmiar, 50.f * rozmiar, 40.f * rozmiar, -85.f * rozmiar, 20.f * rozmiar, -20.f * rozmiar);
+	kokpit->setColor(kolorJasnoNiebieski[0], kolorJasnoNiebieski[1], kolorJasnoNiebieski[2]);
 
 	// Zbierak
-	Walec zbierak = Walec(15.f * rozmiar, 70.f * rozmiar, -80.f * rozmiar, 0.f * rozmiar, -35.f * rozmiar, kolorJasnoSzary);
+	zbierak = new Walec(15.f * rozmiar, 70.f * rozmiar, -80.f * rozmiar, 0.f * rozmiar, -35.f * rozmiar);
+	zbierak->setColor(kolorJasnoSzary[0], kolorJasnoSzary[1], kolorJasnoSzary[2]);
 
 	// Rura do zrzucania
 	// Rurka 1
-	Prostopadloscian rurka1 = Prostopadloscian(5.f * rozmiar, 15.f * rozmiar, 5.f * rozmiar, -60.f * rozmiar, 65.f * rozmiar, -30.f * rozmiar, kolorCiemnoNiebieski);
+	rurka1 = new Prostopadloscian(5.f * rozmiar, 15.f * rozmiar, 5.f * rozmiar, -60.f * rozmiar, 65.f * rozmiar, -30.f * rozmiar);
+	rurka1->setColor(kolorCiemnoNiebieski[0], kolorCiemnoNiebieski[1], kolorCiemnoNiebieski[2]);
+
 	//Rurka 2
-	Prostopadloscian rurka2 = Prostopadloscian(80.f * rozmiar, 7.5f * rozmiar, 7.5f * rozmiar, -60.f * rozmiar, 72.5f * rozmiar, -31.5f * rozmiar, kolorCiemnoNiebieski);
+	rurka2 = new Prostopadloscian(80.f * rozmiar, 7.5f * rozmiar, 7.5f * rozmiar, -60.f * rozmiar, 72.5f * rozmiar, -31.5f * rozmiar);
+	rurka2->setColor(kolorCiemnoNiebieski[0], kolorCiemnoNiebieski[1], kolorCiemnoNiebieski[2]);
 
 	// Ko³o przód lewo du¿e
-	Walec koloPrzodLewoDuze = Walec(20.f * rozmiar, 10.f * rozmiar, -45.f * rozmiar, 0.f * rozmiar, 20.f * rozmiar, kolorCiemnoCiemnoSzary);
-	Walec felgaPrzodLewoDuza = Walec(10.f * rozmiar, 10.f * rozmiar, -45.f * rozmiar, 0.f * rozmiar, 22.5f * rozmiar, kolorJasnoSzary);
+	koloPrzodLewoDuze = new Walec(20.f * rozmiar, 10.f * rozmiar, -45.f * rozmiar, 0.f * rozmiar, 20.f * rozmiar);
+	koloPrzodLewoDuze->setColor(kolorCiemnoCiemnoSzary[0], kolorCiemnoCiemnoSzary[1], kolorCiemnoCiemnoSzary[2]);
+
+	felgaPrzodLewoDuza = new Walec(10.f * rozmiar, 10.f * rozmiar, -45.f * rozmiar, 0.f * rozmiar, 22.5f * rozmiar);
+	felgaPrzodLewoDuza->setColor(kolorJasnoSzary[0], kolorJasnoSzary[1], kolorJasnoSzary[2]);
 
 	// Ko³o przód prawo du¿e
-	Walec koloPrzodPrawoDuze = Walec(20.f * rozmiar, -10.f * rozmiar, -45.f * rozmiar, 0.f * rozmiar, -20.f * rozmiar, kolorCiemnoCiemnoSzary);
-	Walec felgaPrzodPrawoDuza = Walec(10.f * rozmiar, -10.f * rozmiar, -45.f * rozmiar, 0.f * rozmiar, -22.5f * rozmiar, kolorJasnoSzary);
+	koloPrzodPrawoDuze = new Walec(20.f * rozmiar, -10.f * rozmiar, -45.f * rozmiar, 0.f * rozmiar, -20.f * rozmiar);
+	koloPrzodPrawoDuze->setColor(kolorCiemnoCiemnoSzary[0], kolorCiemnoCiemnoSzary[1], kolorCiemnoCiemnoSzary[2]);
+
+	felgaPrzodPrawoDuza = new Walec(10.f * rozmiar, -10.f * rozmiar, -45.f * rozmiar, 0.f * rozmiar, -22.5f * rozmiar);
+	felgaPrzodPrawoDuza->setColor(kolorJasnoSzary[0], kolorJasnoSzary[1], kolorJasnoSzary[2]);
 
 	// Ko³o œrodek lewo ma³e
-	Walec koloSrodekLewoMale = Walec(15.f * rozmiar, 10.f * rozmiar, -7.5f * rozmiar, -5.f * rozmiar, 20.f * rozmiar, kolorCiemnoCiemnoSzary);
-	Walec felgaSrodekLewoMala = Walec(7.5f * rozmiar, 10.f * rozmiar, -7.5f * rozmiar, -5.f * rozmiar, 22.5f * rozmiar, kolorJasnoSzary);
+	koloSrodekLewoMale = new Walec(15.f * rozmiar, 10.f * rozmiar, -7.5f * rozmiar, -5.f * rozmiar, 20.f * rozmiar);
+	koloSrodekLewoMale->setColor(kolorCiemnoCiemnoSzary[0], kolorCiemnoCiemnoSzary[1], kolorCiemnoCiemnoSzary[2]);
+
+	felgaSrodekLewoMala = new Walec(7.5f * rozmiar, 10.f * rozmiar, -7.5f * rozmiar, -5.f * rozmiar, 22.5f * rozmiar);
+	felgaSrodekLewoMala->setColor(kolorJasnoSzary[0], kolorJasnoSzary[1], kolorJasnoSzary[2]);
 
 	// Ko³o œrodek prawo ma³e
-	Walec koloSrodekPrawoMale = Walec(15.f * rozmiar, -10.f * rozmiar, -7.5f * rozmiar, -5.f * rozmiar, -20.f * rozmiar, kolorCiemnoCiemnoSzary);
-	Walec felgaSrodekPrawoMala = Walec(7.5f * rozmiar, -10.f * rozmiar, -7.5f * rozmiar, -5.f * rozmiar, -22.5f * rozmiar, kolorJasnoSzary);
+	koloSrodekPrawoMale = new Walec(15.f * rozmiar, -10.f * rozmiar, -7.5f * rozmiar, -5.f * rozmiar, -20.f * rozmiar);
+	koloSrodekPrawoMale->setColor(kolorCiemnoCiemnoSzary[0], kolorCiemnoCiemnoSzary[1], kolorCiemnoCiemnoSzary[2]);
+
+	felgaSrodekPrawoMala = new Walec(7.5f * rozmiar, -10.f * rozmiar, -7.5f * rozmiar, -5.f * rozmiar, -22.5f * rozmiar);
+	felgaSrodekPrawoMala->setColor(kolorJasnoSzary[0], kolorJasnoSzary[1], kolorJasnoSzary[2]);
 
 	// Ko³o ty³ lewo ma³e
-	Walec koloTylLewoMale = Walec(15.f * rozmiar, 10.f * rozmiar, 25.f * rozmiar, -5.f * rozmiar, 20.f * rozmiar, kolorCiemnoCiemnoSzary);
-	Walec felgaTylLewoMala = Walec(7.5f * rozmiar, 10.f * rozmiar, 25.f * rozmiar, -5.f * rozmiar, 22.5f * rozmiar, kolorJasnoSzary);
+	koloTylLewoMale = new Walec(15.f * rozmiar, 10.f * rozmiar, 25.f * rozmiar, -5.f * rozmiar, 20.f * rozmiar);
+	koloTylLewoMale->setColor(kolorCiemnoCiemnoSzary[0], kolorCiemnoCiemnoSzary[1], kolorCiemnoCiemnoSzary[2]);
+
+	felgaTylLewoMala = new Walec(7.5f * rozmiar, 10.f * rozmiar, 25.f * rozmiar, -5.f * rozmiar, 22.5f * rozmiar);
+	felgaTylLewoMala->setColor(kolorJasnoSzary[0], kolorJasnoSzary[1], kolorJasnoSzary[2]);
 
 	// Ko³o ty³ prawo ma³e
-	Walec koloTylPrawoMale = Walec(15.f * rozmiar, -10.f * rozmiar, 25.f * rozmiar, -5.f * rozmiar, -20.f * rozmiar, kolorCiemnoCiemnoSzary);
-	Walec felgaTylPrawoMala = Walec(7.5f * rozmiar, -10.f * rozmiar, 25.f * rozmiar, -5.f * rozmiar, -22.5f * rozmiar, kolorJasnoSzary);
+	koloTylPrawoMale = new Walec(15.f * rozmiar, -10.f * rozmiar, 25.f * rozmiar, -5.f * rozmiar, -20.f * rozmiar);
+	koloTylPrawoMale->setColor(kolorCiemnoCiemnoSzary[0], kolorCiemnoCiemnoSzary[1], kolorCiemnoCiemnoSzary[2]);
+
+	felgaTylPrawoMala = new Walec(7.5f * rozmiar, -10.f * rozmiar, 25.f * rozmiar, -5.f * rozmiar, -22.5f * rozmiar);
+	felgaTylPrawoMala->setColor(kolorJasnoSzary[0], kolorJasnoSzary[1], kolorJasnoSzary[2]);
 
 	//Prostopadloscian(40.0f * rozmiar, 20.0f * rozmiar, 30.0f * rozmiar, 0.f * rozmiar, 0.f * rozmiar, 10.f * rozmiar); // dolny
 	//Prostopadloscian(60.0f * rozmiar, 30.f * rozmiar, 30.0f * rozmiar, 0.0f * rozmiar, 30.0f * rozmiar, 0.0f * rozmiar); // gorny
@@ -79,4 +104,44 @@ Kombajn::Kombajn(GLfloat rozmiar)
 
 Kombajn::~Kombajn()
 {
+	delete podwozie;
+	delete nadwozie;
+	delete kokpit;
+	delete rurka1;
+	delete rurka2;
+	delete zbierak;
+	delete koloPrzodLewoDuze;
+	delete felgaPrzodLewoDuza;
+	delete koloPrzodPrawoDuze;
+	delete felgaPrzodPrawoDuza;
+	delete koloSrodekLewoMale;
+	delete felgaSrodekLewoMala;
+	delete koloSrodekPrawoMale;
+	delete koloSrodekLewoMale;
+	delete koloTylLewoMale;
+	delete felgaTylLewoMala;
+	delete koloTylPrawoMale;
+	delete felgaTylPrawoMala;
+}
+
+void Kombajn::draw()
+{
+	podwozie->draw();
+	nadwozie->draw();
+	kokpit->draw();
+	rurka1->draw();
+	rurka2->draw();
+	zbierak->draw();
+	koloPrzodLewoDuze->draw();
+	felgaPrzodLewoDuza->draw();
+	koloPrzodPrawoDuze->draw();
+	felgaPrzodPrawoDuza->draw();
+	koloSrodekLewoMale->draw();
+	felgaSrodekLewoMala->draw();
+	koloSrodekPrawoMale->draw();
+	koloSrodekLewoMale->draw();
+	koloTylLewoMale->draw();
+	felgaTylLewoMala->draw();
+	koloTylPrawoMale->draw();
+	felgaTylPrawoMala->draw();
 }

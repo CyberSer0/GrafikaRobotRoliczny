@@ -1,6 +1,7 @@
 #pragma once
 #include <stdio.h>
 #include "stb_image.h"
+#include <fstream>
 #include <vector>
 
 class BMP

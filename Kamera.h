@@ -1,4 +1,7 @@
+#ifndef CAMERA_CLASS_H
+#define CAMERA_CLASS_H
 #pragma once
+
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
@@ -14,6 +17,8 @@ private:
 	float m_farCutoff;
 
 public:
+	bool m_mouseControlsActivated;
+
 	Kamera();
 	Kamera(glm::vec3 poz, glm::vec2 dim, float fov, float nearCutoff, float farCutoff);
 	Kamera(glm::vec3 poz, glm::vec2 dim, glm::vec3 rot, float fov, float nearCutoff, float farCutoff);
@@ -26,3 +31,4 @@ public:
 	void debugPrint();
 };
 
+#endif

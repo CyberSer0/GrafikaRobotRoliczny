@@ -79,8 +79,7 @@ int InitObjects()
 	dom = new Dom({-325.f, 135.f, -250.f}, 0.75f);
 	ogrodzenie = new Ogrodzenie({-225.f, 135.f, -350.f}, 0.75f);
 	siano = new Siano({-250.f, 100.f, -110.f}, 1.f);
-	kamera = new Kamera({ 100.f, 100.f, 100.f }, { screenWidth, screenHeight }, 60.f, 0.f, 400.f);
-	
+	kamera = new Kamera({ 100.f, 100.f, 100.f }, { screenWidth, screenHeight }, 100.f, 1.f, 4000.f);
 	return 0;
 }
 
@@ -119,9 +118,7 @@ void RenderScene(void)
 int main( void )
 {
 	GLFWwindow *window;
-	
 
-	float orthoZoom = 2.5f;
 
 	if(!glfwInit())
 	{
@@ -150,7 +147,9 @@ int main( void )
 	}
 
 	glfwMakeContextCurrent(window);
-	glEnable(GL_DEPTH_TEST | GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+
 	InitObjects();
 	glViewport(0.0f, 0.0f, screenWidth, screenHeight);
 
@@ -161,7 +160,6 @@ int main( void )
 
 	while(!glfwWindowShouldClose(window))
 	{
-		glfwPollEvents();
 		glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
 		glfwGetCursorPos(window, &newMousePosY, &newMousePosX);
 		kamera->update();
@@ -169,6 +167,7 @@ int main( void )
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		RenderScene();
 		glfwSwapBuffers(window);
+		glfwPollEvents();
 	}
 
 	glfwTerminate();
@@ -179,6 +178,15 @@ int main( void )
 static void cursorPositionCallback(GLFWwindow *window, double xpos, double ypos)
 {
 	std::cout << xpos << " : " << ypos << std::endl;
+	if (mouseWindowFocus == 1)
+	{
+		float newCameraXRot = (float)(ypos - (screenHeight / 2)) / screenHeight;
+		float newCameraYRot = (float)(xpos - (screenHeight / 2)) / screenHeight;
+
+		glm::vec3 predictionRot = glm::rotate();
+
+		kamera->setRotation({(float)(ypos - (screenHeight / 2)) / screenHeight, (float)(xpos - (screenHeight / 2)) / screenHeight, 0});
+	}
 }
 
 
@@ -201,12 +209,14 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 		std::cout << "Right button pressed" << std::endl;
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		mouseWindowFocus = 0;
+		kamera->m_mouseControlsActivated = false;
 	}
 	if(button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 	{
 		std::cout << "Left button pressed" << std::endl;
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		mouseWindowFocus = 1;
+		kamera->m_mouseControlsActivated = true;
 	}
 }
 

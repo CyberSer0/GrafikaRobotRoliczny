@@ -3,6 +3,7 @@
 
 #include "Prostopadloscian.h"
 #include "Walec.h"
+#include "BMP.h"
 #include <math.h>
 #include <vector>
 #include <time.h>
@@ -31,8 +32,12 @@ private:
     std::vector< Vector3 > vertices;
     std::vector< Vector3 > faces;
     std::vector< ColorRGB > colors; 
+
+    BMP m_tex = BMP("trawa.bmp");
+
 public:
 	Ziemia(GLfloat rozmiar);
 	~Ziemia();
     void draw();
+    void setTexture(BMP tex);
 };

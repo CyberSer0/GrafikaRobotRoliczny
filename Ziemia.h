@@ -32,6 +32,9 @@ private:
     std::vector< Vector3 > vertices;
     std::vector< Vector3 > faces;
     std::vector< ColorRGB > colors; 
+
+    BMP m_tex = BMP("trawa.bmp");
+
 public:
 	Ziemia(GLfloat rozmiar);
 	~Ziemia();

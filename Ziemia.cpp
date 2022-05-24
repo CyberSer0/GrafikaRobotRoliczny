@@ -37,6 +37,12 @@ Ziemia::Ziemia(GLfloat rozmiar)
         }
     }
 
+    
+    GLuint textureid;
+    glGenTextures(1, &textureid);
+    glBindTexture(GL_TEXTURE_2D, textureid);
+    //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_tex.GetWidth(), m_tex.GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_tex.GetPixels().data());
+
     m_rozmiar = rozmiar;
 
 	//Prostopadloscian ziemia = Prostopadloscian(750.f * rozmiar, 0.f * rozmiar, 750.f * rozmiar, -450.f * rozmiar, -20.f * rozmiar, -450.f * rozmiar, kolorZielony);
@@ -57,12 +63,20 @@ void Ziemia::draw()
             glVertex3f(vertices[faces[i].z].x * m_rozmiar, (vertices[faces[i].z].y) * m_rozmiar, vertices[faces[i].z].z * m_rozmiar);
         glEnd();
     }
+    
+    glBegin(GL_QUADS);
+        glTexCoord2f(0, 0);
+        glVertex2f(-1, 1);
+        glTexCoord2f(1, 0);
+        glVertex2f(-1, -1);
+        glTexCoord2f(0, 1);
+        glVertex2f(1, -1);
+        glTexCoord2f(1, 1);
+        glVertex2f(1, 1);
+    glEnd();
 }
 
 void Ziemia::setTexture(BMP tex)
 {
-    GLuint textureid;
-    glGenTextures(1, &textureid);
-    glBindTexture(GL_TEXTURE_2D, textureid);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tex.GetWidth(), tex.GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, &tex.GetPixels());
+    m_tex = tex;
 }

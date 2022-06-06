@@ -14,6 +14,7 @@ Kamera::Kamera()
 	m_farCutoff = 200.f;
 	m_lookAtPoz = glm::vec3(0.f, 0.f, 0.f);
 	m_mouseControlsActivated = false;
+	upVector = glm::vec3(0.f, 1.f, 0.f);
 }
 
 
@@ -27,6 +28,7 @@ Kamera::Kamera(glm::vec3 poz, glm::vec2 dim, float fov, float nearCutoff, float 
 	m_farCutoff = farCutoff;
 	m_lookAtPoz = glm::vec3(0.f, 0.f, 0.f);
 	m_mouseControlsActivated = false;
+	upVector = glm::vec3(0.f, 1.f, 0.f);
 }
 
 
@@ -40,6 +42,7 @@ Kamera::Kamera(glm::vec3 poz, glm::vec2 dim, glm::vec3 rot, float fov, float nea
 	m_farCutoff = farCutoff;
 	m_lookAtPoz = glm::vec3(0.f, 0.f, 0.f);
 	m_mouseControlsActivated = false;
+	upVector = glm::vec3(0.f, 1.f, 0.f);
 }
 
 
@@ -54,7 +57,7 @@ void Kamera::update()
 	gluPerspective(m_fov, m_dim.x / m_dim.y, m_nearCutoff, m_farCutoff);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	//gluLookAt(m_poz.x, m_poz.y, m_poz.z, m_lookAtPoz.x, m_lookAtPoz.y, m_lookAtPoz.z, 0.f, 1.f, 0.f);
+	gluLookAt(m_poz.x, m_poz.y, m_poz.z, m_lookAtPoz.x, m_lookAtPoz.y, m_lookAtPoz.z, 0.f, 1.f, 0.f);
 	debugPrint();
 }
 

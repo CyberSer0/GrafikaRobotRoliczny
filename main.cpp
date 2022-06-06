@@ -27,6 +27,8 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/rotate_vector.hpp>
+#include <glm/gtx/vector_angle.hpp>
 #include <cmath>				// Define for sqrt
 #include <cstdio>
 #include "Kombajn.h"
@@ -183,9 +185,15 @@ static void cursorPositionCallback(GLFWwindow *window, double xpos, double ypos)
 		float newCameraXRot = (float)(ypos - (screenHeight / 2)) / screenHeight;
 		float newCameraYRot = (float)(xpos - (screenHeight / 2)) / screenHeight;
 
-		glm::vec3 predictionRot = glm::rotate();
+		glm::vec3 predictionRot = glm::rotate(kamera->m_rot, glm::radians(-newCameraXRot), glm::normalize(glm::cross(kamera->m_rot, kamera->upVector)));
 
-		kamera->setRotation({(float)(ypos - (screenHeight / 2)) / screenHeight, (float)(xpos - (screenHeight / 2)) / screenHeight, 0});
+		if(abs(glm::angle(predictionRot, kamera->upVector) - glm::radians(90.0f)) <= glm::radians(85.0f))
+		{ 
+			kamera->m_rot = predictionRot;
+		}
+
+		kamera->m_rot = glm::rotate(kamera->m_rot, glm::radians(-newCameraYRot), kamera->upVector);
+		glfwSetCursorPos(window, screenWidth / 2, screenHeight / 2);
 	}
 }
 

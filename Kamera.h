@@ -9,7 +9,6 @@ class Kamera
 {
 private:
 	glm::vec3 m_poz;
-	glm::vec3 m_rot;
 	glm::vec2 m_dim;
 	glm::vec3 m_lookAtPoz;
 	float m_fov;
@@ -17,6 +16,8 @@ private:
 	float m_farCutoff;
 
 public:
+	glm::vec3 upVector;
+	glm::vec3 m_rot;
 	bool m_mouseControlsActivated;
 
 	Kamera();

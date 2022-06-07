@@ -1,6 +1,6 @@
 #include "Kamera.h"
 #include <iostream> 
-
+#include <glm/gtc/quaternion.hpp>
 
 // TODO: https://github.com/VictorGordan/opengl-tutorials/blob/main/YoutubeOpenGL%208%20-%20Camera/Camera.h;
 
@@ -12,23 +12,27 @@ Kamera::Kamera()
 	m_fov = 60.f;
 	m_nearCutoff = 0.f;
 	m_farCutoff = 200.f;
-	m_lookAtPoz = glm::vec3(0.f, 0.f, 0.f);
 	m_mouseControlsActivated = false;
 	upVector = glm::vec3(0.f, 1.f, 0.f);
+	frontVector = glm::vec3(1.0f, 0.0f, 0.0f);
+	rightVector = glm::vec3(0.0f, 0.0f, 1.0f);
+	movementSpeed = 5.0f;
 }
 
 
 Kamera::Kamera(glm::vec3 poz, glm::vec2 dim, float fov, float nearCutoff, float farCutoff)
 {
 	m_poz = poz;
-	m_rot = glm::vec3(0.f, 0.f, -1.f);
+	m_rot = glm::vec3(0.f, -1.f, -1.f);
 	m_dim = dim;
 	m_fov = fov;
 	m_nearCutoff = nearCutoff;
 	m_farCutoff = farCutoff;
-	m_lookAtPoz = glm::vec3(0.f, 0.f, 0.f);
 	m_mouseControlsActivated = false;
 	upVector = glm::vec3(0.f, 1.f, 0.f);
+	frontVector = glm::vec3(1.0f, 0.0f, 0.0f);
+	rightVector = glm::vec3(0.0f, 0.0f, 1.0f);
+	movementSpeed = 5.0f;
 }
 
 
@@ -40,9 +44,11 @@ Kamera::Kamera(glm::vec3 poz, glm::vec2 dim, glm::vec3 rot, float fov, float nea
 	m_fov = fov;
 	m_nearCutoff = nearCutoff;
 	m_farCutoff = farCutoff;
-	m_lookAtPoz = glm::vec3(0.f, 0.f, 0.f);
 	m_mouseControlsActivated = false;
 	upVector = glm::vec3(0.f, 1.f, 0.f);
+	frontVector = glm::vec3(0.0f, 0.0f, 1.0f);
+	rightVector = glm::vec3(1.0f, 0.0f, 0.0f);
+	movementSpeed = 5.0f;
 }
 
 
@@ -63,12 +69,12 @@ void Kamera::update()
 
 void Kamera::move(glm::vec3 moveTo)
 {
-	m_poz += moveTo;
+	m_poz += moveTo * 2.5f;
 }
 
 void Kamera::setPosition(glm::vec3 newPoz)
 {
-	m_poz = newPoz;
+	m_poz = newPoz * movementSpeed;
 }
 
 void Kamera::setRotation(glm::vec3 newRot)

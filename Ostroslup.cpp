@@ -46,8 +46,8 @@ void Ostroslup::draw()
 
 	glColor3f(kolory[0], kolory[1], kolory[2]);
 	glBegin(GL_TRIANGLES);
-	glVertex3f(spod1[0], spod1[1], spod1[2]);
 	glVertex3f(spod2[0], spod2[1], spod2[2]);
+	glVertex3f(spod1[0], spod1[1], spod1[2]);
 	glVertex3f(wierzcholek[0], wierzcholek[1], wierzcholek[2]);
 	glEnd();
 

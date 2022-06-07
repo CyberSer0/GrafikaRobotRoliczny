@@ -182,8 +182,8 @@ static void cursorPositionCallback(GLFWwindow *window, double xpos, double ypos)
 	std::cout << xpos << " : " << ypos << std::endl;
 	if (mouseWindowFocus == 1)
 	{
-		float newCameraXRot = (float)(ypos - (screenHeight / 2)) / screenHeight;
-		float newCameraYRot = (float)(xpos - (screenHeight / 2)) / screenHeight;
+		float newCameraXRot = ((float)(ypos - (screenHeight / 2)) / screenHeight) * 2.0f;
+		float newCameraYRot = ((float)(xpos - (screenHeight / 2)) / screenHeight) * 2.0f;
 
 		glm::vec3 predictionRot = glm::rotate(kamera->m_rot, glm::radians(-newCameraXRot), glm::normalize(glm::cross(kamera->m_rot, kamera->upVector)));
 
@@ -237,29 +237,32 @@ void scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	std::cout << key << " pressed" << std::endl;
-	if (key == GLFW_KEY_W && action == GLFW_REPEAT)
+	if (action == GLFW_REPEAT || action == GLFW_PRESS)
 	{
-		kamera->move({5.f, 0.f, 0.f});
-	}
-	if (key == GLFW_KEY_S && (action == GLFW_REPEAT || action == GLFW_PRESS))
-	{
-		kamera->move({ -5.f, 0.f, 0.f });
-	}
-	if (key == GLFW_KEY_A && (action == GLFW_REPEAT || action == GLFW_PRESS))
-	{
-		kamera->move({ 0.f, 0.f, -5.f });
-	}
-	if (key == GLFW_KEY_D && (action == GLFW_REPEAT || action == GLFW_PRESS))
-	{
-		kamera->move({ 0.f, 0.f, 5.f });
-	}
-	if (key == GLFW_KEY_SPACE && (action == GLFW_REPEAT || action == GLFW_PRESS))
-	{
-		kamera->move({ 0.f, 5.f, 0.f });
-	}
-	if (key == GLFW_KEY_LEFT_CONTROL && (action == GLFW_REPEAT || action == GLFW_PRESS))
-	{
-		kamera->move({ 0.f, -5.f, 0.f });
+		std::cout << key << " pressed" << std::endl;
+		if (key == GLFW_KEY_W)
+		{
+			kamera->move(kamera->frontVector);
+		}
+		if (key == GLFW_KEY_S)
+		{
+			kamera->move(-kamera->frontVector);
+		}
+		if (key == GLFW_KEY_A)
+		{
+			kamera->move(-kamera->rightVector);
+		}
+		if (key == GLFW_KEY_D)
+		{
+			kamera->move(kamera->rightVector);
+		}
+		if (key == GLFW_KEY_SPACE)
+		{
+			kamera->move(kamera->upVector);
+		}
+		if (key == GLFW_KEY_LEFT_CONTROL)
+		{
+			kamera->move(-kamera->upVector);
+		}
 	}
 }

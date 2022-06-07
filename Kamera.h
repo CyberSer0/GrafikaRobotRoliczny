@@ -14,9 +14,12 @@ private:
 	float m_fov;
 	float m_nearCutoff;
 	float m_farCutoff;
+	float movementSpeed;
 
 public:
 	glm::vec3 upVector;
+	glm::vec3 frontVector;
+	glm::vec3 rightVector;
 	glm::vec3 m_rot;
 	bool m_mouseControlsActivated;
 

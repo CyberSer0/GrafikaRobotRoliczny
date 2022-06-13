@@ -64,7 +64,7 @@ void Kamera::update()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(m_poz.x, m_poz.y, m_poz.z, m_lookAtPoz.x, m_lookAtPoz.y, m_lookAtPoz.z, 0.f, 1.f, 0.f);
-	debugPrint();
+	//debugPrint();
 }
 
 void Kamera::move(glm::vec3 moveTo)

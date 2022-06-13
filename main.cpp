@@ -78,7 +78,7 @@ int InitObjects()
 	srand(time(0));
 	kombajn = new Kombajn(0.75f);
 	ziemia = new Ziemia(25.f);
-	dom = new Dom({-325.f, 135.f, -250.f}, 0.75f);
+	dom = new Dom({-500.f, 75.f, -250.f}, 0.75f);
 	ogrodzenie = new Ogrodzenie({-225.f, 135.f, -350.f}, 0.75f);
 	siano = new Siano({-250.f, 100.f, -110.f}, 1.f);
 	kamera = new Kamera({ 100.f, 100.f, 100.f }, { screenWidth, screenHeight }, 100.f, 1.f, 4000.f);
@@ -150,7 +150,7 @@ int main( void )
 
 	glfwMakeContextCurrent(window);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+	// glEnable(GL_CULL_FACE);
 
 	InitObjects();
 	glViewport(0.0f, 0.0f, screenWidth, screenHeight);
@@ -165,6 +165,7 @@ int main( void )
 		glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
 		glfwGetCursorPos(window, &newMousePosY, &newMousePosX);
 		kamera->update();
+		kombajn->update();
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		RenderScene();
@@ -179,7 +180,7 @@ int main( void )
 
 static void cursorPositionCallback(GLFWwindow *window, double xpos, double ypos)
 {
-	std::cout << xpos << " : " << ypos << std::endl;
+	//std::cout << xpos << " : " << ypos << std::endl;
 	if (mouseWindowFocus == 1)
 	{
 		float newCameraXRot = ((float)(ypos - (screenHeight / 2)) / screenHeight) * 2.0f;
@@ -263,6 +264,26 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		if (key == GLFW_KEY_LEFT_CONTROL)
 		{
 			kamera->move(-kamera->upVector);
+		}
+		if (key == GLFW_KEY_UP)
+		{
+			kombajn->move(glm::vec3{-5.0f, 0.0f, 0.0f});
+		}
+		if (key == GLFW_KEY_DOWN)
+		{
+			kombajn->move(glm::vec3{5.0f, 0.0f, 0.0f});
+		}
+		if (key == GLFW_KEY_LEFT)
+		{
+			kombajn->turn(1.f);
+		}
+		if (key == GLFW_KEY_RIGHT)
+		{
+			kombajn->turn(-1.f);
+		}
+		if (key == GLFW_KEY_E)
+		{
+			kamera->lookAt(kombajn->m_poz);
 		}
 	}
 }

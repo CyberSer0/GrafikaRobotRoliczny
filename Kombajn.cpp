@@ -16,7 +16,7 @@ Kombajn::Kombajn(GLfloat rozmiar)
 	GLfloat kolorJasnoSzary[3] = { 0.5f, 0.5f, 0.5f };
 	GLfloat kolorJasnoNiebieski[3] = { 0.f, 1.f, 1.f };
 
-	m_poz = {-15.f, 15.f, 0.f};
+	m_poz = {0.f, 0.f, 0.f};
 
 	// Podwozie
 	podwozie = new Prostopadloscian(100.f * rozmiar, 30.f * rozmiar, 45.f * rozmiar, -15.f * rozmiar, 15.f * rozmiar, 0.f * rozmiar);
@@ -102,6 +102,9 @@ Kombajn::Kombajn(GLfloat rozmiar)
 	//Prostopadloscian(30.0f * rozmiar, 15.f * rozmiar, 25.0f * rozmiar, -15.0f * rozmiar, 30.0f * rozmiar, 15.0f * rozmiar); // kabina 
 
 	//Prostopadloscian(10.0f * rozmiar, 5.f * rozmiar, 5.0f * rozmiar, 80.0f * rozmiar, 0.0f * rozmiar, 25.0f * rozmiar); // orka
+
+	punktRotacyjny = new Prostopadloscian(10.f, 10.f, 10.f, m_poz.x, m_poz.y, m_poz.z);
+	punktRotacyjny->setColor(kolorCiemnoCzerwony[0], kolorCiemnoCzerwony[1], kolorCiemnoCzerwony[2]);
 }
 
 Kombajn::~Kombajn()
@@ -146,6 +149,7 @@ void Kombajn::draw()
 	felgaTylLewoMala->draw();
 	koloTylPrawoMale->draw();
 	felgaTylPrawoMala->draw();
+	punktRotacyjny->draw();
 }
 
 void Kombajn::update()
@@ -155,7 +159,6 @@ void Kombajn::update()
 
 void Kombajn::move(glm::vec3 przemieszczenie)
 {
-	m_poz += przemieszczenie;
 	podwozie->move(przemieszczenie);
 	nadwozie->move(przemieszczenie);
 	kokpit->move(przemieszczenie);
@@ -174,6 +177,8 @@ void Kombajn::move(glm::vec3 przemieszczenie)
 	felgaTylLewoMala->move(przemieszczenie);
 	koloTylPrawoMale->move(przemieszczenie);
 	felgaTylPrawoMala->move(przemieszczenie);
+	przemieszczenie = {cos(podwozie->getAngle()) * przemieszczenie.x - sin(podwozie->getAngle()) * przemieszczenie.z, przemieszczenie.y, sin(podwozie->getAngle()) * przemieszczenie.x - cos(podwozie->getAngle()) * przemieszczenie.z};
+	m_poz += przemieszczenie;
 }
 
 void Kombajn::turn(GLfloat angle)

@@ -34,7 +34,9 @@ void Walec::draw()
 {
 	glm::vec3 tempPosHolder = {m_posX, m_posY, m_posZ};
 	glPushMatrix();
+	glTranslatef( m_rotPoint.x, m_rotPoint.y, m_rotPoint.z);
 	glRotatef(angle, 0, 1.0f, 0);
+	glTranslatef( -m_rotPoint.x, -m_rotPoint.y, -m_rotPoint.z);
 	glColor3f(kolor[0], kolor[1], kolor[2]);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glBegin(GL_TRIANGLE_FAN);

@@ -66,7 +66,9 @@ Prostopadloscian::~Prostopadloscian()
 void Prostopadloscian::draw()
 {
 	glPushMatrix();
+	glTranslatef( m_rotPoint.x, m_rotPoint.y, m_rotPoint.z);
 	glRotatef(angle, 0, 1.0f, 0);
+	glTranslatef( -m_rotPoint.x, -m_rotPoint.y, -m_rotPoint.z);
 	// Sciany skladowe
 	// Spodnia
 	glColor3f(kolor[0] * 0.75f, kolor[1] * 0.75f, kolor[2] * 0.75f);
@@ -144,6 +146,7 @@ void Prostopadloscian::move(glm::vec3 przemieszczenie)
 
 void Prostopadloscian::turn(GLfloat angle, glm::vec3 point)
 {
+	if (this->angle < -360.f || this->angle > 360.f) this->angle = 0;
 	this->angle += angle;
 	m_rotPoint = point;
 }

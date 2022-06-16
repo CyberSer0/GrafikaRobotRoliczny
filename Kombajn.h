@@ -8,7 +8,7 @@
 class Kombajn
 {
 private:
-	Prostopadloscian *podwozie, *nadwozie, *kokpit, *rurka1, *rurka2;
+	Prostopadloscian *podwozie, *nadwozie, *kokpit, *rurka1, *rurka2, *punktRotacyjny;
 	Walec *zbierak, *koloPrzodLewoDuze, *felgaPrzodLewoDuza, *koloPrzodPrawoDuze, *felgaPrzodPrawoDuza, *koloSrodekLewoMale, *felgaSrodekLewoMala, *koloSrodekPrawoMale, *felgaSrodekPrawoMala, *koloTylLewoMale, *felgaTylLewoMala, *koloTylPrawoMale, *felgaTylPrawoMala;
 public:
 	glm::vec3 m_poz;
